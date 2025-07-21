@@ -5,6 +5,7 @@ import ToolsSection from '../components/ToolsSection'
 import Testimonials from '../components/Testimonials'
 import Footer from '../components/Footer'
 import MarqueeCards from '../components/MarqueeCards'
+import Plan from '../components/Plan'
 
 const Home = () => {
   return (
@@ -14,6 +15,7 @@ const Home = () => {
       <MarqueeCards/>
       <ToolsSection/>
       <Testimonials/>
+      <Plan/>
       <Footer/>
     </>
   )
