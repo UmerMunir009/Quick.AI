@@ -2,8 +2,43 @@ import React from 'react'
 
 const DashBoard = () => {
   return (
-    <div>
+    <div className='h-screen overflow-y-scroll'>
       DashBoard
+      <p>cnisk</p>
+      <p>cnisk</p>
+      <p>cnisk</p>
+      <p>cnisk</p>
+      <p>cnisk</p>
+      <p>cnisk</p>
+      <p>cnisk</p>
+      <p>cnisk</p>
+      <p>cnisk</p>
+      <p>cnisk</p>
+      <p>cnisk</p>
+      <p>cnisk</p>
+      <p>cnisk</p>
+      <p>cnisk</p>
+      <p>cnisk</p>
+      <p>cnisk</p>
+      <p>cnisk</p>
+      <p>cnisk</p>
+      <p>cnisk</p>
+      <p>cnisk</p>
+      <p>cnisk</p>
+      <p>cnisk</p>
+      <p>cnisk</p>
+      <p>cnisk</p>
+      <p>cnisk</p>
+      <p>cnisk</p>
+      <p>cnisk</p>
+      <p>cnisk</p>
+      <p>cnisk</p>
+      <p>cnisk</p>
+      <p>cnisk</p>
+      <p>cnisk</p>
+      <p>cnisk</p>
+    
+      
     </div>
   )
 }

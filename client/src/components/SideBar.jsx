@@ -9,6 +9,7 @@ import {
   Scissors,
   FileText,
   Users,
+  LogOut,
 } from "lucide-react";
 import { NavLink } from "react-router-dom";
 const Sidebar = ({ sidebar, setSidebar }) => {
@@ -28,20 +29,20 @@ const Sidebar = ({ sidebar, setSidebar }) => {
 
   return (
     <div
-      className={` w-full sm:w-80 bg-white border-r border-gray-200 flex flex-col justify-between items-center max-sm:absolute top-14 bottom-0 ${
+      className={` w-[85%] min-h-screen sm:w-80 bg-white border-r border-gray-200 flex flex-col justify-between items-center max-sm:absolute top-14 bottom-0 ${
         sidebar ? "translate-x-0" : "max-sm:-translate-x-full"
       } transition-all duration-300 ease-in-out`}
     >
-      <div className="my-7 w-full">
-        <img
+      <div className="mt-7 w-full">
+        <img onClick={()=>openUserProfile()}
           src={user?.imageUrl}
           alt="User avatar"
-          className="w-17 rounded-full mx-auto"
+          className="w-17 rounded-full mx-auto cursor-pointer"
         />
         <h1 className="mt-1 text-center text-purple-800 font-semibold">
           {user?.fullName}
         </h1>
-        <div>
+        <div className="my-5 px-3">
           {navItems.map(({ to, label, Icon }) => (
             <NavLink key={to} to={to} end={to === "/ai"}
               onClick={() => setSidebar(false)}
@@ -60,7 +61,14 @@ const Sidebar = ({ sidebar, setSidebar }) => {
             </NavLink>
           ))}
         </div>
+
       </div>
+        <div onClick={signOut} className="flex justify-between px-5 gap-3 w-full bg-red-600 py-2 cursor-pointer">
+        <p className="text-white font-bold text-md">SignOut</p>
+        <LogOut className="text-white w-5"/>
+      </div>
+
+      
     </div>
   );
 };
