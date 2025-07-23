@@ -49,7 +49,7 @@ const WriteArticle = () => {
           ))}
         </div>
         <div className="flex justify-center">
-          <button className="flex justify-center cursor-pointer items-center gap-2 text-sm bg-gradient-to-r from-[#226BEE] to-[#65ADFF] text-white px-4 py-2 rounded-2xl ">
+          <button className="flex w-full justify-center cursor-pointer items-center gap-2 text-sm bg-gradient-to-r from-[#226BEE] to-[#65ADFF] text-white px-4 py-2 rounded-2xl ">
          
           <Edit className="w-5 " /> Generate Article
         </button>

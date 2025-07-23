@@ -46,7 +46,7 @@ const BlogTitles = () => {
           ))}
         </div>
         <div className="flex justify-center">
-          <button className="flex justify-center cursor-pointer items-center gap-2 text-sm bg-gradient-to-r from-[#c81eea] to-[#65ADFF] text-white px-4 py-2 rounded-2xl ">
+          <button className="flex w-full justify-center cursor-pointer items-center gap-2 text-sm bg-gradient-to-r from-[#c81eea] to-[#65ADFF] text-white px-4 py-2 rounded-2xl ">
          
           <Hash className="w-5 " /> Generate Titles
         </button>
@@ -60,7 +60,7 @@ const BlogTitles = () => {
           <p className="font-bold"> Generated Titles</p>
         </div>
 
-        <div className={`h-90 overflow-y-scroll flex ${generatedTitles?'items-start justify-start ':'items-center justify-center'}  items-center gap-2`}>
+        <div className={`h-90 overflow-y-scroll flex flex-col text-center ${generatedTitles?'items-start justify-start ':'items-center justify-center'}  items-center gap-2`}>
           {!generatedTitles && (<Hash className="w-5 text-gray-400 " />)}
           {generatedTitles?<p className="text-xs">{generatedTitles}</p>:<p className="text-gray-400 text-xs">Enter a topic and click "Generate Title" to get started</p>}
 
