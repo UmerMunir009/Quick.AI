@@ -2,7 +2,6 @@ const asyncErrorHandler = require("../../utils/asyncErrorHandler");
 const { STATUS_CODES, TEXTS } = require("../../config/constants");
 const { Creation, Like } = require("./../../models");
 const { where } = require("sequelize");
-const likes = require("../../models/likes");
 
 const getUserCreations = asyncErrorHandler(async (req, res) => {
   const { userId } = req.auth();

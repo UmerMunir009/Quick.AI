@@ -124,8 +124,10 @@ const WriteArticle = () => {
               </p>
             </>
           ) : (
-            <div className="reset-tw ">
+            <div className="text-xs">
+              <div className="reset-tw ">
               <MarkDown>{generatedArticle}</MarkDown>
+            </div>
             </div>
           )}
         </div>

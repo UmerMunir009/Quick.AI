@@ -115,11 +115,13 @@ const BlogTitles = () => {
         >
           {loading ? (
             <div className="w-full space-y-2">
-              <Skeleton height={20} count={5} />
+              <Skeleton  height={20} count={10} />
             </div>
           ) : generatedTitles ? (
-            <div className="text-sm text-left">
+            <div className="text-sm">
+              <div className="reset-tw">
               <MarkDown>{generatedTitles}</MarkDown>
+            </div>
             </div>
           ) : (
             <>
