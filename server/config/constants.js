@@ -45,6 +45,7 @@ module.exports = {
       UPDATE_FAILED : "Update failed",
       UPDATE_PLAN :'Update plan to premium for further use',
       LIKED:'Post Liked',
-      UN_LIKED:'Post Unliked'
+      UN_LIKED:'Post Unliked',
+      SERVER_ERROR:'Server Error'
     },
   };

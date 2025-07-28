@@ -6,7 +6,7 @@ exports.generateContent = async (prompt, length) => {
     model: "gemini-2.0-flash",
     messages: [{ role: "user", content: prompt }],
     temperature: 0.7,
-    max_tokens: length || 100,
+    max_tokens: length || 400,
   });
 
   return response.choices[0].message.content;
