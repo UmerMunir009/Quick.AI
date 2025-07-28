@@ -43,6 +43,8 @@ module.exports = {
       PASSWORD_UPDATED : "Password Updated",
       PROFILE_UPDATED : "Profile Updated",
       UPDATE_FAILED : "Update failed",
-      UPDATE_PLAN :'Update plan to premium for further use'
+      UPDATE_PLAN :'Update plan to premium for further use',
+      LIKED:'Post Liked',
+      UN_LIKED:'Post Unliked'
     },
   };
