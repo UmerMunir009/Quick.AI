@@ -100,7 +100,7 @@ const generateImages = asyncErrorHandler(async (req, res) => {
 
 const removeBackground = asyncErrorHandler(async (req, res) => {
   const { userId } = req.auth();
-  const { image } = req.file;
+  const image = req.file;
 
   const content = await removeBg(image);
   const creationData = {
@@ -122,7 +122,7 @@ const removeBackground = asyncErrorHandler(async (req, res) => {
 const removeObjects = asyncErrorHandler(async (req, res) => {
   const { userId } = req.auth();
   const { object } = req.body;
-  const { image } = req.file;
+  const image  = req.file;
 
   const content = await removeObject(image, object);
   const creationData = {

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Image, Sparkles } from "lucide-react";
+import { Download, Image, Sparkles } from "lucide-react";
 import { useAuth } from "@clerk/clerk-react";
 import axios from "axios";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -38,8 +38,7 @@ const GenerateImages = () => {
           },
         }
       );
-        setGeneratedImage(response.data.data.content);
-      
+      setGeneratedImage(response.data.data.content);
     } catch (error) {
       if (error.response) {
         toast.error(error.response.data.message);
@@ -51,6 +50,25 @@ const GenerateImages = () => {
       }
     } finally {
       setLoading(false);
+    }
+  };
+
+  const downloadImage = async () => {
+    try {
+      const response = await fetch(generatedImage);
+      const blob = await response.blob();
+
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "generated-image.jpg";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      toast.error("Failed to download image.");
+      console.error("Download error:", err);
     }
   };
 
@@ -127,9 +145,19 @@ const GenerateImages = () => {
 
       {/* Right Column - Placeholder (add your content here) */}
       <div className="w-full max-w-md p-4 bg-white rounded-lg border border-gray-200">
-        <div className="flex justify-center  items-center gap-2 text-sm  px-4 py-2 rounded-2xl ">
-          <Image className="w-5 text-green-500 " />
-          <p className="font-bold"> Generated Image</p>
+        <div className="flex justify-between  items-center gap-2 text-sm  px-4 py-2 rounded-2xl ">
+          <div className="flex justify-center items-center gap-1">
+            <Image className="w-5 text-green-500 " />
+            <p className="font-bold"> Generated Image</p>
+          </div>
+          {generatedImage ? (
+            <Download
+              onClick={downloadImage}
+              className="cursor-pointer text-green-600 hover:text-green-800"
+            ></Download>
+          ) : (
+            <div></div>
+          )}
         </div>
 
         <div

@@ -8,7 +8,7 @@ const CreationItem = ({item}) => {
        <div className='flex justify-between gap-3 items-center'>
        <div>
             <h2 className='text-xs sm:text-sm md:text-md mb-2 '>{item?.prompt}</h2>
-            <p className='text-xs sm:text-sm text-gray-500'>{item?.type} || {new Date(item?.created_at).toLocaleDateString()}</p>
+            <p className='text-xs sm:text-sm text-gray-500'>{item?.type} || {new Date(item?.createdAt).toLocaleDateString()}</p>
         </div>
        <button className='bg-blue-400 text-white p-2 text-xs rounded-lg '>{item?.type}</button>
        </div>

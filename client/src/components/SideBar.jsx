@@ -48,7 +48,7 @@ const Sidebar = ({ sidebar, setSidebar }) => {
               onClick={() => setSidebar(false)}
               className={({ isActive }) =>
                 `px-3.5 py-2.5 flex items-center gap-3 rounded ${
-                  isActive? "bg-gradient-to-r from-[#3C81F6] to-[#9234EA] text-white": ""
+                  isActive && label=== 'Review Resume'? 'bg-red-600':isActive? "bg-gradient-to-r from-[#3C81F6] to-[#9234EA] text-white":""
                 }`
               }
             >

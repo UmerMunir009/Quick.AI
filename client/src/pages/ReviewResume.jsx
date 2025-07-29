@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { Edit, Eraser, FileText, Hash, Paperclip, PartyPopperIcon, Sparkles } from "lucide-react";
+import { useEffect } from "react";
+import "react-loading-skeleton/dist/skeleton.css";
+import { toast } from "react-hot-toast";
 
 const ReviewResume = () => {
   const [input, setInput] = useState("");
@@ -7,6 +10,10 @@ const ReviewResume = () => {
   const submitHandler=async (e)=>{
     e.preventDefault()
   }
+  useEffect(()=>{
+    toast.error('This feature is not supported yet.Will be added soon')
+
+  },[])
  
   return (
     <div className="h-full overflow-y-scroll p-6 flex items-start flex-wrap gap-4 text-slate-700">
@@ -29,7 +36,7 @@ const ReviewResume = () => {
 
        
         <div className="flex justify-center mt-8">
-          <button className="flex w-full justify-center cursor-pointer items-center gap-2 text-sm bg-gradient-to-r from-[#00DA83] to-[#009BB3] text-white px-4 py-2 rounded-2xl ">
+          <button disabled={true} className="flex w-full justify-center cursor-pointer items-center gap-2 text-sm bg-gradient-to-r from-[#00DA83] to-[#009BB3] text-white px-4 py-2 rounded-2xl ">
          
           <FileText className="w-5 " /> Review Resume
         </button>

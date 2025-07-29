@@ -9,7 +9,6 @@ const getUserCreations = asyncErrorHandler(async (req, res) => {
     where: { user_id: userId },
     order: [["createdAt", "DESC"]],
   });
-  console.log(data);
 
   res.status(STATUS_CODES.SUCCESS).json({
     statusCode: STATUS_CODES.SUCCESS,

@@ -3,12 +3,41 @@ import { dummyCreationData } from "../assets/assets";
 import { Gem, Sparkles } from "lucide-react";
 import { Protect } from "@clerk/clerk-react";
 import CreationItem from "../components/CreationItem";
+import axios from 'axios'
+import {useAuth} from '@clerk/clerk-react'
+import "react-loading-skeleton/dist/skeleton.css";
+import { toast } from "react-hot-toast";
+
+axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
 
 const DashBoard = () => {
   const [creations, setCreations] = useState([]);
-  const getUserCreations = () => {
-    setCreations(dummyCreationData);
-    console.log(creations)
+   const [loading, setLoading] = useState(false);
+    const { getToken } = useAuth();
+  const getUserCreations = async() => {
+     try {
+      setLoading(true);
+      setCreations([])
+      const response = await axios.get("/user/creations", {
+        headers: {
+          Authorization: `Bearer ${await getToken()}`,
+        },
+      });
+        setCreations(response.data.data);
+        console.log(response.data.data)
+  
+    } catch (error) {
+      if (error.response) {
+        toast.error(error.response.data.message);
+      } else if (error.request) {
+        toast.error("No response from server.");
+      } else {
+        // unknown or setup error
+        toast.error("Unexpected error occurred.");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -43,7 +72,7 @@ const DashBoard = () => {
       <div className="my-5">
         <h1 className="text-lg text-gray-600 font-semibold mb-5">Recent Creations</h1>
         {
-          creations.map((item)=><CreationItem key={item?.id} item={item}/>)
+          !loading?creations.slice(0,15).map((item)=><CreationItem key={item?.id} item={item}/>):<span className="w-10 h-10 my-10 rounded-full border-2 border-t-transparent animate-spin"></span>
         }
       </div>
     </div>
