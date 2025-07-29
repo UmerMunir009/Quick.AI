@@ -1,11 +1,46 @@
 import React, { useState } from "react";
 import { Edit, Eraser, Hash, Sparkles } from "lucide-react";
+import {useAuth} from '@clerk/clerk-react'
+import axios from 'axios'
+import "react-loading-skeleton/dist/skeleton.css";
+import {toast} from 'react-hot-toast'
+import FormData from "form-data";
+
+
+axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
 
 const RemoveBackground = () => {
   const [input, setInput] = useState("");
   const [processedImage,setProcessedImage]=useState('')
+  const [loading, setLoading] = useState(false);
+  const { getToken } = useAuth();
   const submitHandler=async (e)=>{
     e.preventDefault()
+     try {
+      setLoading(true);
+      const formData = new FormData();
+      formData.append("image", input);
+      const response = await axios.post("/ai/remove-background",formData,{
+          headers: {
+            Authorization: `Bearer ${await getToken()}`,
+          },
+        }
+      );
+      if(response.data.statusCode === 200){
+      setProcessedImage(response.data.data.content);
+      }
+      else{
+     
+        toast.error(response.data.message)
+      }
+      
+    } catch (error) {
+          toast.error('Something went wrong')
+      
+    }finally{
+      setLoading(false);
+    }
+    console.log(generatedImage)
   }
  
   return (
@@ -29,9 +64,11 @@ const RemoveBackground = () => {
 
        
         <div className="flex justify-center mt-8">
-          <button className="flex w-full justify-center cursor-pointer items-center gap-2 text-sm bg-gradient-to-r from-[#F6AB41] to-[#FF4938] text-white px-4 py-2 rounded-2xl ">
-         
-          <Eraser className="w-5 " /> Remove Background
+          <button disabled={true} className="flex w-full justify-center cursor-pointer items-center gap-2 text-sm bg-gradient-to-r from-[#F6AB41] to-[#FF4938] text-white px-4 py-2 rounded-2xl ">
+         {
+          loading?<span className="w-4 h-4 my-1 rounded-full border-2 border-t-transparent animate-spin"></span>:<Eraser className="w-5 " />
+         }
+           Remove Background
         </button>
         </div>
       </form>
@@ -45,7 +82,11 @@ const RemoveBackground = () => {
 
         <div className={`h-90 overflow-y-scroll flex flex-col text-center ${processedImage?'items-start justify-start ':'items-center justify-center'}  items-center gap-2`}>
           {!processedImage && (<Eraser className="w-5 text-gray-400 " />)}
-          {processedImage?<p className="text-xs">{processedImage}</p>:<p className="text-gray-400 text-xs">Choose an image and click "Remove Background" to get started</p>}
+          {processedImage?<img src={processedImage} alt="" />:<p className="text-gray-400 text-xs">
+            {
+              loading?'This will take few seconds...':'Choose an image and click "Remove Background" to get started'
+            }
+            </p>}
 
         </div>
       </div>

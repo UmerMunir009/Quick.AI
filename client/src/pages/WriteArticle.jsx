@@ -33,17 +33,18 @@ const WriteArticle = () => {
           },
         }
       );
-      if(response.data.statusCode === 200){
-      setGeneratedArticle(response.data.data.content);
-      }
-      else{
-        toast.error(response.data.message)
-      }
-      
-      setLoading(false);
+      setGeneratedArticle(response.data.data.content);    
     } catch (error) {
-          toast.error(error.message)
-      
+          if (error.response) {
+                 toast.error(error.response.data.message);
+               } else if (error.request) {
+                 toast.error("No response from server.");
+               } else {
+                 // unknown or setup error
+                 toast.error("Unexpected error occurred.");
+               }
+    }finally{
+        setLoading(false);
     }
   };
 

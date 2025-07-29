@@ -44,6 +44,7 @@ module.exports = {
       PROFILE_UPDATED : "Profile Updated",
       UPDATE_FAILED : "Update failed",
       UPDATE_PLAN :'Update plan to premium for further use',
+      PREMIUM_PLAN:'This feature is only available for premium users.',
       LIKED:'Post Liked',
       UN_LIKED:'Post Unliked',
       SERVER_ERROR:'Server Error'

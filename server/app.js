@@ -37,18 +37,7 @@ app.use(require('./middlewares/paginate').paginate)
 
 app.use(routes);
 
-app.post('/upload-file',upload.single('file'),async(req,res)=>{
 
-  try{
-
-    const data = await uploadFile(req.file)
-
-    res.status(200).json(data);
-
-  }catch(err){
-    console.log("error : ",err)
-  }
-})
 
 app.all("*", (req, res, next) => {
   const err = new CustomError(

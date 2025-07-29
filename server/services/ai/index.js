@@ -5,6 +5,8 @@ const { generateContent } = require("../../utils/generateContent");
 const { generateImage } = require("../../utils/generateImage");
 const { removeBg } = require("../../utils/removeBg");
 const { removeObject } = require("../../utils/removeObject");
+const {clerkClient}= require('@clerk/express')
+
 
 const generateArticle = asyncErrorHandler(async (req, res) => {
   const { userId } = req.auth();

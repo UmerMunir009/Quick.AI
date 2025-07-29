@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import {Image, Sparkles } from "lucide-react";
+import { Image, Sparkles } from "lucide-react";
 import { useAuth } from "@clerk/clerk-react";
 import axios from "axios";
 import "react-loading-skeleton/dist/skeleton.css";
-import {toast} from 'react-hot-toast'
+import { toast } from "react-hot-toast";
+
+axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
 
 const GenerateImages = () => {
   const styles = [
@@ -24,27 +26,32 @@ const GenerateImages = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-     try {
+    try {
       setLoading(true);
-      const prompt=`Generate image like ${input} in style: ${selectedStyle}`
-      const response = await axios.post("/ai/generate-image",{prompt,publish},{
+      const prompt = `Generate image like ${input} in style: ${selectedStyle}`;
+      const response = await axios.post(
+        "/ai/generate-image",
+        { prompt, publish },
+        {
           headers: {
             Authorization: `Bearer ${await getToken()}`,
           },
         }
       );
-      if(response.data.statusCode === 200){
-      setGeneratedImage(response.data.data.content);
-      }
-      else{
-        toast.error('Error in generating image,Please try again later')
-      }
-      setLoading(false);
-    } catch (error) {
-          toast.error(error.message)
+        setGeneratedImage(response.data.data.content);
       
+    } catch (error) {
+      if (error.response) {
+        toast.error(error.response.data.message);
+      } else if (error.request) {
+        toast.error("No response from server.");
+      } else {
+        // unknown or setup error
+        toast.error("Unexpected error occurred.");
+      }
+    } finally {
+      setLoading(false);
     }
-    console.log(generatedImage)
   };
 
   return (
@@ -104,11 +111,16 @@ const GenerateImages = () => {
         </div>
 
         <div className="flex justify-center">
-          <button className="flex w-full justify-center cursor-pointer items-center gap-2 text-sm bg-gradient-to-r from-[#37ce26] to-[#015923] text-white px-4 py-2 rounded-2xl ">
-            {
-              loading?<span className="w-4 h-4 my-1 rounded-full border-2 border-t-transparent animate-spin"></span>:<Image className="w-5 " />
-            }
-             Generate Image
+          <button
+            disabled={loading}
+            className="flex w-full justify-center cursor-pointer items-center gap-2 text-sm bg-gradient-to-r from-[#37ce26] to-[#015923] text-white px-4 py-2 rounded-2xl "
+          >
+            {loading ? (
+              <span className="w-4 h-4 my-1 rounded-full border-2 border-t-transparent animate-spin"></span>
+            ) : (
+              <Image className="w-5 " />
+            )}
+            Generate Image
           </button>
         </div>
       </form>
@@ -132,7 +144,9 @@ const GenerateImages = () => {
             <img src={generatedImage} alt="" />
           ) : (
             <p className="text-gray-400 text-xs">
-             {loading? 'This will take few seconds':' Enter the description and click "Generate Image" to get Image'}
+              {loading
+                ? "This will take few seconds"
+                : ' Enter the description and click "Generate Image" to get Image'}
             </p>
           )}
         </div>
