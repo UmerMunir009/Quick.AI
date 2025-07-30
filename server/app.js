@@ -26,9 +26,6 @@ app.get("/test",(req,res)=>{
 
 app.use(requireAuth())
 
-const {upload}= require('./utils/multer');
-
-const {uploadFile} = require('./utils/aws')
 
 // authenticate.unless = unless;
 // app.use(authenticate.unless(authenticateRoutes));
@@ -36,8 +33,6 @@ const {uploadFile} = require('./utils/aws')
 app.use(require('./middlewares/paginate').paginate)
 
 app.use(routes);
-
-
 
 app.all("*", (req, res, next) => {
   const err = new CustomError(

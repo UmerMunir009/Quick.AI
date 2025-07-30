@@ -69,12 +69,13 @@ const DashBoard = () => {
         </div>
       </div>
 
-      <div className="my-5">
+      {!loading?<div className="my-5">
         <h1 className="text-lg text-gray-600 font-semibold mb-5">Recent Creations</h1>
         {
-          !loading?creations.slice(0,15).map((item)=><CreationItem key={item?.id} item={item}/>):<span className="w-10 h-10 my-10 rounded-full border-2 border-t-transparent animate-spin"></span>
+          creations.slice(0,15).map((item)=><CreationItem key={item?.id} item={item}/>)
         }
-      </div>
+      </div>:(<div className="flex justify-center items-center"><span className="w-7 h-7 mt-18 rounded-full border-2 border-t-transparent animate-spin text-gray-600"></span></div>)
+}
     </div>
   );
 };

@@ -18,19 +18,41 @@ const getUserCreations = asyncErrorHandler(async (req, res) => {
 });
 
 const getCommunityCreations = asyncErrorHandler(async (req, res) => {
-  const data = await Creation.findAll({ where: { publish: true },order: [["createdAt", "DESC"]], });
+  const { userId } = req.auth();
+  const creations = await Creation.findAll({where: { publish: true },order: [["createdAt", "DESC"]]});
+
+  const creationsWithLikes = await Promise.all(
+    creations.map(async (item) => {
+      const likeCount = await Like.count({
+        where: { creation_id: item.id },
+      });
+
+      const liked = await Like.findOne({
+        where: {
+          creation_id: item.id,
+          user_id: userId,
+        },
+      });
+
+      return {
+        ...item.toJSON(),
+        likes: likeCount,
+        liked: liked?true:false,
+      };
+    })
+  );
 
   res.status(STATUS_CODES.SUCCESS).json({
     statusCode: STATUS_CODES.SUCCESS,
     message: TEXTS.CREATED,
-    data: data,
+    data: creationsWithLikes,
   });
 });
+
 
 const toggleCreationLike = asyncErrorHandler(async (req, res) => {
   const { userId } = req.auth();
   const { creationId } = req.body;
-  // const creationExists = await Creation.findOne({ where: { id: creationId } });
     const [creationExists, exists] = await Promise.all([
       Creation.findOne({ where: { id: creationId } }),
       Like.findOne({ where: { creation_id: creationId, user_id: userId } }),
@@ -41,8 +63,6 @@ const toggleCreationLike = asyncErrorHandler(async (req, res) => {
       message: TEXTS.NOT_FOUND,
     });
   }
-
-  // const exists = await Like.findOne({where: { creation_id: creationId, user_id: userId },});
   if (exists) {
     await Like.destroy({ where: { creation_id: creationId, user_id: userId } });
     return res.status(STATUS_CODES.SUCCESS).json({
