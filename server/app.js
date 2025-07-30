@@ -20,7 +20,7 @@ app.use(express.urlencoded({ limit: '5mb', extended: false }));
 app.use(clerkMiddleware())
 
 
-app.get("/test",(req,res)=>{
+app.get("/",(req,res)=>{
   res.send("Server is running changes")
 })
 
