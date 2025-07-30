@@ -44,7 +44,7 @@ if (require.main === module) {
       });
 
     } catch (error) {
-      console.error('Unable to connect to the database:', error);
+      console.error('Unable to connect to the databases:', error);
       process.exit(1);
     }
   };
