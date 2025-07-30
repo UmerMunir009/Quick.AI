@@ -3,49 +3,54 @@ const http = require("http");
 const app = require("./app");
 const { sequelize } = require('./models');
 
-const server = http.Server(app);
+const port = process.env.PORT || 3000;
 
-const port = process.env.PORT;
+//Only create and listen to the server if running locally
+if (require.main === module) {
+  const server = http.Server(app);
 
-const startServer = async () => {
-  try {
-    await sequelize.authenticate();
-    console.log('Connection to PostgreSQL has been established successfully.');
+  const startServer = async () => {
+    try {
+      await sequelize.authenticate();
+      console.log('Connection to PostgreSQL has been established successfully.');
 
-    server.listen(port, () => {
-      console.log(`App is listening on port ${port}`);
-    });
+      server.listen(port, () => {
+        console.log(`App is listening on port ${port}`);
+      });
 
-  } catch (error) {
-    console.error('Unable to connect to the database:', error);
-    process.exit(1);
-  }
-};
+      const exitHandler = () => {
+        if (server) {
+          server.close(() => {
+            console.log("Server closed");
+            process.exit(1);
+          });
+        } else {
+          process.exit(1);
+        }
+      };
 
-startServer();
+      const unexpectedErrorHandler = (error) => {
+        console.log(error);
+        exitHandler();
+      };
 
-const exitHandler = () => {
-  if (server) {
-    server.close(() => {
-      console.log("Server closed");
+      process.on("uncaughtException", unexpectedErrorHandler);
+      process.on("unhandledRejection", unexpectedErrorHandler);
+      process.on("SIGTERM", () => {
+        console.log("SIGTERM received");
+        if (server) {
+          server.close();
+        }
+      });
+
+    } catch (error) {
+      console.error('Unable to connect to the database:', error);
       process.exit(1);
-    });
-  } else {
-    process.exit(1);
-  }
-};
+    }
+  };
 
-const unexpectedErrorHandler = (error) => {
-  console.log(error);
-  exitHandler();
-};
+  startServer();
+}
 
-process.on("uncaughtException", unexpectedErrorHandler);
-process.on("unhandledRejection", unexpectedErrorHandler);
-
-process.on("SIGTERM", () => {
-  console.log("SIGTERM received");
-  if (server) {
-    server.close();
-  }
-});
+//Always export app for Vercel
+module.exports = app;
