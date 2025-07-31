@@ -1,7 +1,7 @@
 const asyncErrorHandler = require("./../utils/asyncErrorHandler");
 const { STATUS_CODES, TEXTS } = require("./../config/constants");
 
-module.exports.usageLimit = asyncErrorHandler( (req, res, next) => {
+module.exports.usageLimit = asyncErrorHandler(async (req, res, next) => {
   if (req.plan !== "premium" && req.free_usage >= 10) {
     return res.status(STATUS_CODES.UNAUTHORIZED).json({
       statusCode: STATUS_CODES.UNAUTHORIZED,

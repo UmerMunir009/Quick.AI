@@ -5,8 +5,7 @@ const { generateContent } = require("../../utils/generateContent");
 const { generateImage } = require("../../utils/generateImage");
 const { removeBg } = require("../../utils/removeBg");
 const { removeObject } = require("../../utils/removeObject");
-const {clerkClient}= require('@clerk/express')
-
+const { clerkClient } = require("@clerk/express");
 
 const generateArticle = asyncErrorHandler(async (req, res) => {
   const { userId } = req.auth();
@@ -16,6 +15,12 @@ const generateArticle = asyncErrorHandler(async (req, res) => {
   let content;
   try {
     content = await generateContent(prompt, length);
+    if (!content) {
+      return res.status(STATUS_CODES.INTERNAL_SERVER_ERROR).json({
+        statusCode: STATUS_CODES.INTERNAL_SERVER_ERROR,
+        message: "No content returned from AI.",
+      });
+    }
   } catch (error) {
     return res.status(STATUS_CODES.INTERNAL_SERVER_ERROR).json({
       statusCode: STATUS_CODES.INTERNAL_SERVER_ERROR,
@@ -122,7 +127,7 @@ const removeBackground = asyncErrorHandler(async (req, res) => {
 const removeObjects = asyncErrorHandler(async (req, res) => {
   const { userId } = req.auth();
   const { object } = req.body;
-  const image  = req.file;
+  const image = req.file;
 
   const content = await removeObject(image, object);
   const creationData = {
