@@ -7,9 +7,9 @@ const {upload} =require('../../utils/multer')
 
 router.post("/ai/generate-article",auth,usageLimit, aiServices.generateArticle);   
 router.post("/ai/generate-blogTitle",auth,usageLimit, aiServices.generateBlogTitles);   
-router.post("/ai/generate-image",auth,premiumCheck, aiServices.generateImages);   
-router.post("/ai/remove-background",upload.single('image'),auth,premiumCheck, aiServices.removeBackground);   
-router.post("/ai/remove-object",upload.single('image'),auth,premiumCheck, aiServices.removeObjects);   
+router.post("/ai/generate-image",auth,usageLimit, aiServices.generateImages);   
+router.post("/ai/remove-background",upload.single('image'),auth,usageLimit, aiServices.removeBackground);   
+router.post("/ai/remove-object",upload.single('image'),auth,usageLimit, aiServices.removeObjects);   
 
 
 module.exports = router;
