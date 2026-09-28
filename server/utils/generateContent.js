@@ -3,7 +3,7 @@ const AI = require('./../config/ai');
 
 exports.generateContent = async (prompt, length) => {
   const response = await AI.chat.completions.create({
-    model: "gemini-3.5-flash",
+    model: "gemini-2.5-flash",
     messages: [{ role: "user", content: prompt }],
     temperature: 0.7,
     max_tokens: length || 400,
